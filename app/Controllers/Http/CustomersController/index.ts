@@ -10,19 +10,19 @@ class CustomersController {
     return { ...data, id }
   }
 
-  public async find() {
+  public async index() {
     const customers = await Customer.all()
     return customers
   }
 
-  public async index({ params }: HttpContextContract) {
+  public async show({ params }: HttpContextContract) {
     const { id } = params
     const customer = await Customer.find(id)
     return customer
   }
 
-  public async update({ request }: HttpContextContract) {
-    const { id } = request.input('id')
+  public async update({ request, params }: HttpContextContract) {
+    const { id } = params
     const data: CustomerData = request.only(this.customerProperties)
     const customer = await Customer.findOrFail(id)
     customer.merge({ ...data })

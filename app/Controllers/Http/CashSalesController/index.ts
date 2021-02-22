@@ -16,12 +16,12 @@ export default class CashSalesController {
     return response.status(201)
   }
 
-  public async find() {
+  public async index() {
     const cashsales = await CashSale.query().preload('products')
     return cashsales
   }
 
-  public async index({ params }: HttpContextContract) {
+  public async show({ params }: HttpContextContract) {
     const { id } = params
     const [cashsale] = await CashSale.query().preload('products').where({ id })
     return cashsale

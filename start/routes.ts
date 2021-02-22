@@ -21,16 +21,25 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.post('/customers', 'CustomersController.create')
-Route.get('/customers', 'CustomersController.find')
-Route.get('/customers/:id', 'CustomersController.index').middleware('convertId')
-Route.put('/customers/:id', 'CustomersController.update').middleware('convertId')
-Route.delete('/customers/:id', 'CustomersController.delete').middleware('convertId')
+Route.get('/customers', 'CustomersController.index')
+Route.get('/customers/:id', 'CustomersController.show')
+Route.put('/customers/:id', 'CustomersController.update')
+Route.delete('/customers/:id', 'CustomersController.delete')
 
 Route.post('/cashsales', 'CashSalesController.create')
-Route.get('/cashsales', 'CashSalesController.find')
-Route.get('/cashsales/:id', 'CashSalesController.index')
+Route.get('/cashsales', 'CashSalesController.index')
+Route.get('/cashsales/:id', 'CashSalesController.show')
+//Route.put('/cashsales/:id', 'CashSalesController.update')
+Route.delete('/cashsales/:id', 'CashSalesController.delete')
 
 Route.post('/products', 'ProductsController.create')
-Route.get('/products', 'ProductsController.find')
+Route.get('/products', 'ProductsController.index')
+Route.get('/products/:id', 'ProductController.show')
+Route.put('/products/:id', 'ProductsController.update')
+Route.delete('/products/:id', 'ProductsController.delete')
 
 Route.post('/creditsales', 'CreditSalesController.create')
+Route.get('/creditsales', 'CreditSalesController.index')
+Route.get('/creditsales/:id', 'CreditSalesController.show')
+//Route.put('/creditsales/:id', 'CreditSalesController.update')
+Route.delete('/creditsales/:id', 'CreditSalesController.delete')

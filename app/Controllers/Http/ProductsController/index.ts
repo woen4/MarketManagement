@@ -17,14 +17,14 @@ export default class ProductsController {
     return product
   }
 
-  public async find({ request }: HttpContextContract) {
+  public async index({ request }: HttpContextContract) {
     const page = request.input('page')
     const perPage = 10
     const products = await Product.query().paginate(page, perPage)
     return products
   }
 
-  public async index({ request }: HttpContextContract) {
+  public async show({ request }: HttpContextContract) {
     const id = request.input('id')
     const product = await Product.find(id)
     return product

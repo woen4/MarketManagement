@@ -17,18 +17,18 @@ export default class CreditSalesController {
     return response.status(201)
   }
 
-  public async find() {
+  public async index() {
     const creditSales = await CreditSale.all()
     return creditSales
   }
 
-  public async index({ params }: HttpContextContract) {
+  public async show({ params }: HttpContextContract) {
     const { id } = params
     const creditSale = await CreditSale.find(id)
     return creditSale
   }
 
-  public async delete({ params }: HttpContextContract) {
+  public async destroy({ params }: HttpContextContract) {
     const { id } = params
     const creditSale = await CreditSale.findOrFail(id)
     await creditSale.delete()
