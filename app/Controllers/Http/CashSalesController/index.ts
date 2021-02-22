@@ -27,9 +27,9 @@ export default class CashSalesController {
     return cashsale
   }
 
-  public async delete({ params }: HttpContextContract) {
+  public async destroy({ params, response }: HttpContextContract) {
     const { id } = params
-    const cashsale = await CashSale.query().where({ id }).delete()
-    return cashsale
+    await CashSale.query().where({ id }).delete()
+    return response.status(204)
   }
 }

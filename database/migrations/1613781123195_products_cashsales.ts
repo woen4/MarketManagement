@@ -8,7 +8,7 @@ export default class ProductsCashsales extends BaseSchema {
       table.increments('id')
       table.float('quantity').notNullable()
       table.integer('product_id').references('id').inTable('products')
-      table.integer('cash_sale_id').references('id').inTable('cash_sales')
+      table.integer('cash_sale_id').references('id').inTable('cash_sales').onDelete('CASCADE')
     })
   }
 
