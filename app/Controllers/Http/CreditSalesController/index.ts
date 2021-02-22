@@ -18,20 +18,19 @@ export default class CreditSalesController {
   }
 
   public async index() {
-    const creditSales = await CreditSale.all()
+    const creditSales = await CreditSale.query().preload('products')
     return creditSales
   }
 
   public async show({ params }: HttpContextContract) {
     const { id } = params
-    const creditSale = await CreditSale.find(id)
+    const [creditSale] = await CreditSale.query().preload('products').where({ id })
     return creditSale
   }
 
-  public async destroy({ params }: HttpContextContract) {
+  public async destroy({ params, response }: HttpContextContract) {
     const { id } = params
-    const creditSale = await CreditSale.findOrFail(id)
-    await creditSale.delete()
-    return creditSale
+    await CreditSale.query().where({ id }).delete()
+    return response.status(204)
   }
 }
