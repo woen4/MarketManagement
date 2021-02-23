@@ -1,17 +1,22 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Product from 'App/Models/Product'
 export default class ProductsController {
-  private productProperties: string[] = [
-    'code',
-    'name',
-    'stock',
-    'sellPrice',
-    'buyPrice',
-    'provider',
-  ]
+  public async create({ request, response }: HttpContextContract) {
+    const data: ProductCreateData = request.only([
+      'code',
+      'name',
+      'stock',
+      'sellPrice',
+      'buyPrice',
+      'provider',
+    ])
 
-  public async create({ request }: HttpContextContract) {
-    const data: ProductData = request.only(this.productProperties)
+    const productWithThisCode = await Product.query().where({ code: data.code }).first()
+
+    if (productWithThisCode) {
+      return response.status(403).send('A product with this code alredy exists')
+    }
+
     const product = await Product.create(data)
     return product
   }
@@ -19,7 +24,9 @@ export default class ProductsController {
   public async index({ request }: HttpContextContract) {
     const page = request.input('page') || 1
     const perPage = 10
-    const products = await Product.query().paginate(page, perPage)
+    const [orderBy, direction] = request.input('sort')?.split('+') || ['name', null]
+
+    const products = await Product.query().orderBy(orderBy, direction).paginate(page, perPage)
     return products
   }
 
@@ -32,7 +39,15 @@ export default class ProductsController {
 
   public async update({ params, request, response }: HttpContextContract) {
     const { id } = params
-    const data: ProductData = request.only(this.productProperties)
+    const data: ProductUpdateData = request.only([
+      'code',
+      'name',
+      'stock',
+      'sellPrice',
+      'buyPrice',
+      'provider',
+      'changeStock',
+    ])
     const product = await Product.find(id)
     if (!product) return response.status(404)
     product.merge({ ...data })
