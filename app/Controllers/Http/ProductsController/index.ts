@@ -17,7 +17,7 @@ export default class ProductsController {
   }
 
   public async index({ request }: HttpContextContract) {
-    const page = request.input('page')
+    const page = request.input('page') || 1
     const perPage = 10
     const products = await Product.query().paginate(page, perPage)
     return products

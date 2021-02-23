@@ -16,20 +16,24 @@ export default class CashSalesController {
     return response.status(201)
   }
 
-  public async index() {
-    const cashsales = await CashSale.query().preload('products')
+  public async index({ request }: HttpContextContract) {
+    const page = request.input('page') || 1
+    const perPage = 10
+    const cashsales = await CashSale.query().preload('products').paginate(page, perPage)
     return cashsales
   }
 
-  public async show({ params }: HttpContextContract) {
+  public async show({ response, params }: HttpContextContract) {
     const { id } = params
     const [cashsale] = await CashSale.query().preload('products').where({ id })
+    if (!cashsale) return response.status(404)
     return cashsale
   }
 
   public async destroy({ params, response }: HttpContextContract) {
     const { id } = params
-    await CashSale.query().where({ id }).delete()
+    const cashsale = await CashSale.query().where({ id }).delete()
+    if (!cashsale) return response.status(404)
     return response.status(204)
   }
 }

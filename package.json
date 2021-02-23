@@ -8,7 +8,7 @@
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
-    "reset-migrations": "node ace migration:rollback && node ace migration:run"
+    "migration:reset": "node ace migration:rollback && node ace migration:run"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^3.0.0",
@@ -28,7 +28,6 @@
     "@adonisjs/lucid": "^10.0.0",
     "@adonisjs/repl": "^1.0.0",
     "luxon": "^1.26.0",
-    "objection": "^2.2.14",
     "pg": "^8.5.1",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",

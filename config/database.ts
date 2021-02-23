@@ -8,7 +8,6 @@
 import Env from '@ioc:Adonis/Core/Env'
 import { OrmConfig } from '@ioc:Adonis/Lucid/Orm'
 import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
-import { knexSnakeCaseMappers } from 'objection'
 
 const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
   /*
@@ -36,19 +35,16 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
     |
     */
     pg: {
-      ...{
-        client: 'pg',
-        connection: {
-          host: Env.get('PG_HOST'),
-          port: Env.get('PG_PORT'),
-          user: Env.get('PG_USER'),
-          password: Env.get('PG_PASSWORD', ''),
-          database: Env.get('PG_DB_NAME'),
-        },
-        healthCheck: false,
-        debug: false,
+      client: 'pg',
+      connection: {
+        host: Env.get('PG_HOST'),
+        port: Env.get('PG_PORT'),
+        user: Env.get('PG_USER'),
+        password: Env.get('PG_PASSWORD', ''),
+        database: Env.get('PG_DB_NAME'),
       },
-      ...knexSnakeCaseMappers(),
+      healthCheck: false,
+      debug: false,
     },
   },
 

@@ -7,9 +7,9 @@ export default class Customers extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name').notNullable()
-      table.decimal('payable').notNullable()
-      table.string('phone_number').nullable()
+      table.float('payable').notNullable()
       table.dateTime('last_purchase').notNullable()
+      table.string('phone_number').nullable()
       table.timestamps(true)
     })
   }

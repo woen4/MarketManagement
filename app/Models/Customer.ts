@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-
 export default class Customer extends BaseModel {
   @column({ isPrimary: true })
   public id: number

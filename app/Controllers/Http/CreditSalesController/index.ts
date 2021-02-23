@@ -17,8 +17,10 @@ export default class CreditSalesController {
     return response.status(201)
   }
 
-  public async index() {
-    const creditSales = await CreditSale.query().preload('products')
+  public async index({ request }: HttpContextContract) {
+    const page = request.input('page') || 1
+    const perPage = 10
+    const creditSales = await CreditSale.query().preload('products').paginate(page, perPage)
     return creditSales
   }
 
