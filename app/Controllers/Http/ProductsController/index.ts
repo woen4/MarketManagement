@@ -1,6 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Product from 'App/Models/Product'
-
 export default class ProductsController {
   private productProperties: string[] = [
     'code',
@@ -24,25 +23,27 @@ export default class ProductsController {
     return products
   }
 
-  public async show({ request }: HttpContextContract) {
-    const id = request.input('id')
+  public async show({ params, response }: HttpContextContract) {
+    const { id } = params
     const product = await Product.find(id)
+    if (!product) return response.status(404)
     return product
   }
 
-  public async update({ params, request }: HttpContextContract) {
+  public async update({ params, request, response }: HttpContextContract) {
     const { id } = params
     const data: ProductData = request.only(this.productProperties)
-    const product = await Product.findOrFail(id)
+    const product = await Product.find(id)
+    if (!product) return response.status(404)
     product.merge({ ...data })
     await product.save()
-    return product
+    response.status(204)
   }
 
-  public async delete({ params }: HttpContextContract) {
+  public async destroy({ params, response }: HttpContextContract) {
     const { id } = params
-    const product = await Product.findOrFail(id)
-    await product.delete()
-    return product
+    const product = await Product.query().where({ id }).delete()
+    if (!product) return response.status(404)
+    response.status(204)
   }
 }

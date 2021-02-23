@@ -34,7 +34,7 @@ Route.delete('/cashsales/:id', 'CashSalesController.destroy')
 
 Route.post('/products', 'ProductsController.create')
 Route.get('/products', 'ProductsController.index')
-Route.get('/products/:id', 'ProductController.show')
+Route.get('/products/:id', 'ProductsController.show')
 Route.put('/products/:id', 'ProductsController.update')
 Route.delete('/products/:id', 'ProductsController.destroy')
 

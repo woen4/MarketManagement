@@ -22,15 +22,17 @@ export default class CreditSalesController {
     return creditSales
   }
 
-  public async show({ params }: HttpContextContract) {
+  public async show({ params, response }: HttpContextContract) {
     const { id } = params
     const [creditSale] = await CreditSale.query().preload('products').where({ id })
+    if (!creditSale) return response.status(404)
     return creditSale
   }
 
   public async destroy({ params, response }: HttpContextContract) {
     const { id } = params
-    await CreditSale.query().where({ id }).delete()
+    const creditSale = await CreditSale.query().where({ id }).delete()
+    if (!creditSale) return response.status(404)
     return response.status(204)
   }
 }
