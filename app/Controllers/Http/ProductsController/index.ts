@@ -5,7 +5,7 @@ export default class ProductsController {
     const data: ProductCreateData = request.only([
       'code',
       'name',
-      'stock',
+      'quantity',
       'sellPrice',
       'buyPrice',
       'provider',
@@ -42,7 +42,7 @@ export default class ProductsController {
     const data: ProductUpdateData = request.only([
       'code',
       'name',
-      'stock',
+      'quantity',
       'sellPrice',
       'buyPrice',
       'provider',
@@ -60,5 +60,14 @@ export default class ProductsController {
     const product = await Product.query().where({ id }).delete()
     if (!product) return response.status(404)
     response.status(204)
+  }
+
+  public static async updateStock(items: Array<Item>) {
+    for (const item of items) {
+      const product = await Product.find(item.productId)
+      if (!product) return
+      product.$attributes.quantity = product.$original.quantity - item.quantity
+      await product.save()
+    }
   }
 }

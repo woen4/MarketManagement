@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CreditSale from 'App/Models/CreditSale'
 import { getSerializedItems } from 'App/utils'
+import Event from '@ioc:Adonis/Core/Event'
 
 export default class CreditSalesController {
   public async create({ request, response }: HttpContextContract) {
@@ -13,6 +14,8 @@ export default class CreditSalesController {
     const serializedItems = getSerializedItems(items)
     const creditSale = await CreditSale.create({ customerId, rebate })
     await creditSale.related('products').attach(serializedItems)
+
+    Event.emit('new:sale', items)
 
     return response.status(201)
   }

@@ -8,7 +8,7 @@ export default class Products extends BaseSchema {
       table.increments('id')
       table.string('code').unique().notNullable()
       table.string('name').notNullable()
-      table.float('stock').notNullable()
+      table.float('quantity').notNullable()
       table.float('sell_price').notNullable()
       table.float('buy_price').notNullable()
       table.string('provider')

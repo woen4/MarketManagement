@@ -1,17 +1,20 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import CashSale from 'App/Models/CashSale'
+import Event from '@ioc:Adonis/Core/Event'
 import { getSerializedItems } from 'App/utils'
+import CashSale from 'App/Models/CashSale'
 
 export default class CashSalesController {
   public async create({ request, response }: HttpContextContract) {
     const { rebate, items }: CashSaleData = request.only(['rebate', 'items'])
     const serializedItems = getSerializedItems(items)
     const cashsale = new CashSale()
-
     cashsale.rebate = rebate
+
     await cashsale.save()
     await cashsale.related('products').attach(serializedItems)
     await cashsale.save()
+
+    Event.emit('new:sale', items)
 
     return response.status(201)
   }

@@ -8,7 +8,7 @@ export default class Product extends BaseModel {
 
   @column() public name: string
 
-  @column() public stock: number
+  @column() public quantity: number
 
   @column() public sellPrice: number
 
