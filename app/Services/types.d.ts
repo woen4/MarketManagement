@@ -12,9 +12,7 @@ declare interface CreateCashSale {
   items: Array<Item>
 }
 
-declare interface CreateCreditSale {
-  rebate: number
-  items: Array<Item>
+declare interface CreateCreditSale extends CreateCashSale {
   customerId: number
   openAt: DateTime
 }

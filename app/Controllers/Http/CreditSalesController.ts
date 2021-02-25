@@ -1,54 +1,40 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Event from '@ioc:Adonis/Core/Event'
-import CreditSale from 'App/Models/CreditSale'
+import CreditSaleService from 'App/Services/CreditSalesService'
 import { getSerializedItems } from 'App/Utils'
 
 export default class CreditSalesController {
+  public service: CreditSaleService
+
+  constructor() {
+    this.service = new CreditSaleService()
+  }
+
   public async create({ request, response }: HttpContextContract) {
-    const { items, rebate, customerId }: CreateCreditSale = request.only([
-      'customerId',
-      'rebate',
-      'items',
-      'openAt',
-    ])
+    const data: CreateCreditSale = request.only(['customerId', 'rebate', 'items', 'openAt'])
+    const result = this.service.create(data)
 
-    const serializedItems = getSerializedItems(items)
-    const emptyCreditSale = await CreditSale.create({ customerId, rebate })
-    await emptyCreditSale.related('products').attach(serializedItems)
-
-    const creditSale = await CreditSale.query()
-      .preload('products')
-      .where({ id: emptyCreditSale.$original.id })
-      .firstOrFail()
-
-    //Update inventory
-    Event.emit('new:sale', items)
-
-    //Update payable this customer
-    const creditSaleData = creditSale.serialize() as CreditSaleData
-    Event.emit('new:creditsale', creditSaleData)
-
-    return response.status(201)
+    return response.status(201).json(result)
   }
 
-  public async index({ request }: HttpContextContract) {
-    const page = request.input('page') || 1
-    const perPage = 10
-    const creditSales = await CreditSale.query().preload('products').paginate(page, perPage)
-    return creditSales
+  public async index({ request, response }: HttpContextContract) {
+    const page = request.input('page')
+    const creditSales = await this.service.index({ page })
+
+    return response.status(200).json(creditSales)
   }
 
-  public async show({ params, response }: HttpContextContract) {
+  public async show({ response, params }: HttpContextContract) {
     const { id } = params
-    const creditSale = await CreditSale.query().preload('products').where({ id }).first()
-    if (!creditSale) return response.status(404)
-    return creditSale
+    const creditSale = await this.service.show({ id })
+
+    return response.status(200).json(creditSale)
   }
 
   public async destroy({ params, response }: HttpContextContract) {
     const { id } = params
-    const creditSale = await CreditSale.query().where({ id }).delete()
-    if (!creditSale) return response.status(404)
+    await this.service.destroy({ id })
+
     return response.status(204)
   }
 }

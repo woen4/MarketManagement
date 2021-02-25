@@ -17,16 +17,16 @@ export default class CashSalesController {
 
   public async index({ request, response }: HttpContextContract) {
     const page = request.input('page')
-    const cashsales = await this.service.index({ page })
+    const cashSales = await this.service.index({ page })
 
-    return response.status(200).json(cashsales)
+    return response.status(200).json(cashSales)
   }
 
   public async show({ response, params }: HttpContextContract) {
     const { id } = params
-    const cashsale = await this.service.show({ id })
+    const cashSale = await this.service.show({ id })
 
-    return response.status(200).json(cashsale)
+    return response.status(200).json(cashSale)
   }
 
   public async destroy({ params, response }: HttpContextContract) {
