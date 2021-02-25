@@ -43,3 +43,5 @@ Route.get('/creditsales', 'CreditSalesController.index')
 Route.get('/creditsales/:id', 'CreditSalesController.show')
 //Route.put('/creditsales/:id', 'CreditSalesController.update')
 Route.delete('/creditsales/:id', 'CreditSalesController.destroy')
+
+Route.get('/inventoryinputs', 'InventoryInputsController.index')

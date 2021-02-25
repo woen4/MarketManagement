@@ -39,3 +39,8 @@ declare interface ProductData {
   provider: string | null
   priceWithTax: number
 }
+
+interface CreateInventoryInput {
+  product: { $original: ProductData }
+  oldProduct: { $original: ProductData }
+}

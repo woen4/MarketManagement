@@ -57,7 +57,7 @@ export default class ProductsController {
 
     Event.emit('update:product', {
       oldProduct,
-      product,
+      product: product as any,
     })
 
     response.status(204)
