@@ -1,5 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Event from '@ioc:Adonis/Core/Event'
 import Product from 'App/Models/Product'
+import cloneDeep from 'lodash/cloneDeep'
 export default class ProductsController {
   public async create({ request, response }: HttpContextContract) {
     const data: ProductCreateData = request.only([
@@ -46,12 +48,18 @@ export default class ProductsController {
       'buyPrice',
       'provider',
       'inventory',
-      'changeStock',
     ])
     const product = await Product.find(id)
+    const oldProduct = cloneDeep(product)
     if (!product) return response.status(404)
     product.merge({ ...data })
     await product.save()
+
+    Event.emit('update:product', {
+      oldProduct,
+      product,
+    })
+
     response.status(204)
   }
 

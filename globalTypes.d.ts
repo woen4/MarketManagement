@@ -28,3 +28,14 @@ declare interface CreditSaleData extends CashSaleData {
   customerId: number
   openAt: DateTime
 }
+
+declare interface ProductData {
+  id: number
+  code: string
+  name: string
+  inventory: number
+  sellPrice: number
+  buyPrice: number
+  provider: string | null
+  priceWithTax: number
+}

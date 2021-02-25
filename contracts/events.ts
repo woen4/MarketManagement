@@ -28,5 +28,6 @@ declare module '@ioc:Adonis/Core/Event' {
   interface EventsList {
     'new:sale': Array<Item>
     'new:creditsale': CreditSaleData
+    'update:product': { oldProduct: ProductData; product: ProductData }
   }
 }

@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Event from '@ioc:Adonis/Core/Event'
 import CreditSale from 'App/Models/CreditSale'
 import { getSerializedItems } from 'App/Utils'
-import Event from '@ioc:Adonis/Core/Event'
 
 export default class CreditSalesController {
   public async create({ request, response }: HttpContextContract) {
