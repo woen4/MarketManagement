@@ -4,16 +4,18 @@ import Customer from 'App/Models/Customer'
 class CustomersController {
   private customerProperties: string[] = ['name', 'payable', 'phoneNumber', 'lastPurchase']
 
-  public async create({ request }: HttpContextContract) {
+  public async create({ request, response }: HttpContextContract) {
     const data: CustomerData = request.only(this.customerProperties)
-    const { id } = await Customer.create(data)
-    return { ...data, id }
+    await Customer.create(data)
+    return response.status(204)
   }
 
   public async index({ request }: HttpContextContract) {
     const page = request.input('page') || 1
     const perPage = 10
-    const customers = await Customer.query().paginate(page, perPage)
+    const [orderBy, direction] = request.input('sort')?.split('+') || ['name', null]
+
+    const customers = await Customer.query().orderBy(orderBy, direction).paginate(page, perPage)
     return customers
   }
 

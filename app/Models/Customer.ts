@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 export default class Customer extends BaseModel {
@@ -11,11 +10,11 @@ export default class Customer extends BaseModel {
 
   @column({ serializeAs: 'phoneNumber' }) public phoneNumber: string
 
-  @column({ serializeAs: 'lastPurchase' }) public lastPurchase: DateTime
+  @column.dateTime({ serializeAs: 'lastPurchase', autoCreate: true }) public lastPurchase: DateTime
 
   @column.dateTime({ autoCreate: true, serializeAs: 'createdAt' })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: 'updatedAt' })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: '' })
   public updatedAt: DateTime
 }
