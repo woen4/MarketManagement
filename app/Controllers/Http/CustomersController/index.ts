@@ -49,7 +49,7 @@ class CustomersController {
       0
     )
     const customer = await Customer.findOrFail(customerId)
-    console.log(sum)
+
     customer.$attributes.payable -= sum
     await customer.save()
   }

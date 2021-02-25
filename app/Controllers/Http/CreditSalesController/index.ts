@@ -42,7 +42,6 @@ export default class CreditSalesController {
     const { id } = params
     const creditSale = await CreditSale.query().preload('products').where({ id }).first()
     if (!creditSale) return response.status(404)
-    console.log(creditSale.$preloaded.products)
     return creditSale
   }
 

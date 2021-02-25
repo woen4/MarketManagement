@@ -1,4 +1,4 @@
-declare interface CashSaleData {
+declare interface CreateCashSale {
   rebate: number
   items: Array<Item>
 }

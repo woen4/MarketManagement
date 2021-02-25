@@ -5,7 +5,7 @@ import CashSale from 'App/Models/CashSale'
 
 export default class CashSalesController {
   public async create({ request, response }: HttpContextContract) {
-    const { rebate, items }: CashSaleData = request.only(['rebate', 'items'])
+    const { rebate, items }: CreateCashSale = request.only(['rebate', 'items'])
     const serializedItems = getSerializedItems(items)
     const cashsale = new CashSale()
     cashsale.rebate = rebate
