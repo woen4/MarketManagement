@@ -9,13 +9,13 @@ export default class Customer extends BaseModel {
 
   @column() public payable: number
 
-  @column() public phoneNumber: string
+  @column({ serializeAs: 'phoneNumber' }) public phoneNumber: string
 
-  @column() public lastPurchase: DateTime
+  @column({ serializeAs: 'lastPurchase' }) public lastPurchase: DateTime
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: 'createdAt' })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: 'updatedAt' })
   public updatedAt: DateTime
 }

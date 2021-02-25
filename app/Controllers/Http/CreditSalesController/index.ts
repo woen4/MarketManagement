@@ -1,21 +1,32 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CreditSale from 'App/Models/CreditSale'
-import { getSerializedItems } from 'App/utils'
+import { getSerializedItems } from 'App/Utils'
 import Event from '@ioc:Adonis/Core/Event'
 
 export default class CreditSalesController {
   public async create({ request, response }: HttpContextContract) {
-    const { items, rebate, customerId }: CreditSaleData = request.only([
+    const { items, rebate, customerId }: CreateCreditSale = request.only([
       'customerId',
       'rebate',
       'items',
+      'openAt',
     ])
 
     const serializedItems = getSerializedItems(items)
-    const creditSale = await CreditSale.create({ customerId, rebate })
-    await creditSale.related('products').attach(serializedItems)
+    const emptyCreditSale = await CreditSale.create({ customerId, rebate })
+    await emptyCreditSale.related('products').attach(serializedItems)
 
+    const creditSale = await CreditSale.query()
+      .preload('products')
+      .where({ id: emptyCreditSale.$original.id })
+      .firstOrFail()
+
+    //Update inventory
     Event.emit('new:sale', items)
+
+    //Update payable this customer
+    const creditSaleData = creditSale.serialize() as CreditSaleData
+    Event.emit('new:creditsale', creditSaleData)
 
     return response.status(201)
   }
@@ -29,8 +40,9 @@ export default class CreditSalesController {
 
   public async show({ params, response }: HttpContextContract) {
     const { id } = params
-    const [creditSale] = await CreditSale.query().preload('products').where({ id })
+    const creditSale = await CreditSale.query().preload('products').where({ id }).first()
     if (!creditSale) return response.status(404)
+    console.log(creditSale.$preloaded.products)
     return creditSale
   }
 

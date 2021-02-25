@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, manyToMany, ManyToMany, computed } from '@ioc:Adonis/Lucid/Orm'
 import Product from 'App/Models/Product'
-import { sum } from '../utils'
+import { sum } from 'App/Utils'
 
 export default class CashSale extends BaseModel {
   @column({ isPrimary: true })
@@ -10,7 +10,9 @@ export default class CashSale extends BaseModel {
   @column()
   public rebate: number
 
-  @manyToMany(() => Product)
+  @manyToMany(() => Product, {
+    pivotColumns: ['quantity'],
+  })
   public products: ManyToMany<typeof Product>
 
   @computed()
@@ -23,9 +25,9 @@ export default class CashSale extends BaseModel {
     return this.rawValue - this.rebate
   }
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: 'createdAt' })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: 'updatedAt' })
   public updatedAt: DateTime
 }

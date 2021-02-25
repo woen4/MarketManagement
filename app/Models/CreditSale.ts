@@ -10,18 +10,26 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import Product from 'App/Models/Product'
 import Customer from 'App/Models/Customer'
-import { sum } from '../utils'
+import { sum } from 'App/Utils'
 
 export default class CreditSale extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   // Foreign key
-  @column()
+  @column({ serializeAs: 'customerId' })
   public customerId: number
 
   @column()
   public rebate: number
+
+  @computed()
+  public get items() {
+    return this.products.map((product) => ({
+      product: product.$original,
+      quantity: product.$extras.pivot_quantity,
+    }))
+  }
 
   @computed()
   public get rawValue() {
@@ -33,12 +41,15 @@ export default class CreditSale extends BaseModel {
     return this.rawValue - this.rebate
   }
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ serializeAs: 'openAt', autoCreate: true })
   public openAt: DateTime
 
   @belongsTo(() => Customer)
   public customer: BelongsTo<typeof Customer>
 
-  @manyToMany(() => Product)
+  @manyToMany(() => Product, {
+    pivotColumns: ['quantity'],
+    serializeAs: '',
+  })
   public products: ManyToMany<typeof Product>
 }

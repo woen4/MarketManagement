@@ -1,14 +1,14 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class ProductsCashsales extends BaseSchema {
-  protected tableName = 'cash_sale_product'
+export default class CreditsalesProducts extends BaseSchema {
+  protected tableName = 'credit_sale_product'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.float('quantity').notNullable()
       table.integer('product_id').references('id').inTable('products')
-      table.integer('cash_sale_id').references('id').inTable('cash_sales').onDelete('CASCADE')
+      table.integer('credit_sale_id').references('id').inTable('credit_sales').onDelete('CASCADE')
     })
   }
 

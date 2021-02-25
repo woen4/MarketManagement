@@ -41,6 +41,18 @@ class CustomersController {
     await customer.delete()
     return response.status(204)
   }
+
+  public static async updatePayable(creditSale: CreditSaleData) {
+    const { items, customerId } = creditSale
+    const sum = items.reduce(
+      (accumulator, { product, quantity }) => accumulator + product.sellPrice * quantity,
+      0
+    )
+    const customer = await Customer.findOrFail(customerId)
+    console.log(sum)
+    customer.$attributes.payable -= sum
+    await customer.save()
+  }
 }
 
 export default CustomersController

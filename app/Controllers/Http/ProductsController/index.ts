@@ -5,7 +5,7 @@ export default class ProductsController {
     const data: ProductCreateData = request.only([
       'code',
       'name',
-      'quantity',
+      'inventory',
       'sellPrice',
       'buyPrice',
       'provider',
@@ -42,10 +42,10 @@ export default class ProductsController {
     const data: ProductUpdateData = request.only([
       'code',
       'name',
-      'quantity',
       'sellPrice',
       'buyPrice',
       'provider',
+      'inventory',
       'changeStock',
     ])
     const product = await Product.find(id)
@@ -66,7 +66,7 @@ export default class ProductsController {
     for (const item of items) {
       const product = await Product.find(item.productId)
       if (!product) return
-      product.$attributes.quantity = product.$original.quantity - item.quantity
+      product.$attributes.inventory -= item.quantity
       await product.save()
     }
   }

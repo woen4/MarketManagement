@@ -2,3 +2,29 @@ declare interface Item {
   quantity: number
   productId: number
 }
+
+declare interface CashSaleData {
+  id: number
+  rebate: number
+  items: [
+    {
+      product: {
+        id: number
+        code: number
+        name: string
+        inventory: number
+        sellPrice: number
+        buyPrice: number
+        provider: string | null
+      }
+      quantity: number
+    }
+  ]
+  rawValue: number
+  value: number
+}
+
+declare interface CreditSaleData extends CashSaleData {
+  customerId: number
+  openAt: DateTime
+}

@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Event from '@ioc:Adonis/Core/Event'
-import { getSerializedItems } from 'App/utils'
+import { getSerializedItems } from 'App/Utils'
 import CashSale from 'App/Models/CashSale'
 
 export default class CashSalesController {
@@ -14,6 +14,7 @@ export default class CashSalesController {
     await cashsale.related('products').attach(serializedItems)
     await cashsale.save()
 
+    //Update inventory
     Event.emit('new:sale', items)
 
     return response.status(201)

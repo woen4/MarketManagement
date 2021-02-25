@@ -8,11 +8,11 @@ export default class Product extends BaseModel {
 
   @column() public name: string
 
-  @column() public quantity: number
+  @column() public inventory: number
 
-  @column() public sellPrice: number
+  @column({ serializeAs: 'sellPrice' }) public sellPrice: number
 
-  @column() public buyPrice: number
+  @column({ serializeAs: 'buyPrice' }) public buyPrice: number
 
   @column() public provider: string
 
