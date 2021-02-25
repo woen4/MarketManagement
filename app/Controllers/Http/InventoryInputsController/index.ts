@@ -14,4 +14,12 @@ export default class InventoryInputsController {
       value: buyPrice * inputedQuantity,
     })
   }
+  public async index({ request }: HttpContextContract) {
+    const page = request.input('page') || 1
+    const perPage = 10
+    const [orderBy, direction] = request.input('sort')?.split('+') || ['name', 'asc']
+    const sortBy = { [orderBy]: direction }
+    const inventoryInputs = await InventoryInputs.find().sort(sortBy)
+    return inventoryInputs
+  }
 }
