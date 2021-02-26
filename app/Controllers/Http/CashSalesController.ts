@@ -17,7 +17,9 @@ export default class CashSalesController {
 
   public async index({ request, response }: HttpContextContract) {
     const page = request.input('page')
-    const cashSales = await this.service.index({ page })
+    const sort = request.input('sort')
+
+    const cashSales = await this.service.index({ page, sort })
 
     return response.status(200).json(cashSales)
   }

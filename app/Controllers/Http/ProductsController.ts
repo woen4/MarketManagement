@@ -4,7 +4,7 @@ import Product from 'App/Models/Product'
 import cloneDeep from 'lodash/cloneDeep'
 export default class ProductsController {
   public async create({ request, response }: HttpContextContract) {
-    const data: ProductCreateData = request.only([
+    const data: CreateProduct = request.only([
       'code',
       'name',
       'inventory',
@@ -41,7 +41,7 @@ export default class ProductsController {
 
   public async update({ params, request, response }: HttpContextContract) {
     const { id } = params
-    const data: ProductUpdateData = request.only([
+    const data: UpdateProduct = request.only([
       'code',
       'name',
       'sellPrice',

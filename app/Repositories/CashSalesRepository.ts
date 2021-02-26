@@ -11,8 +11,14 @@ export default class CashSalesRepository {
     return creditSale
   }
 
-  public async index(page: number, perPage: number) {
-    const creditSales = await CashSale.query().preload('products').paginate(page, perPage)
+  public async index({ pagination, sort }: QueryOptions) {
+    const { page, perPage } = pagination
+    const { orderBy, direction } = sort
+
+    const creditSales = await CashSale.query()
+      .preload('products')
+      .orderBy(orderBy, direction)
+      .paginate(page, perPage)
     return creditSales
   }
 

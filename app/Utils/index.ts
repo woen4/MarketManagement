@@ -17,3 +17,26 @@ export function getSerializedItems(items: Array<Item>) {
   })
   return itemsSerializeds
 }
+
+export function buildQueryOptions(
+  params: IndexParams,
+  defaultOrderBy: string,
+  defaultDirection: string
+) {
+  const { sort, page } = params
+  const [orderBy, direction] = sort?.split('+') || [defaultOrderBy, defaultDirection]
+  const validDirection = direction === ('asc' || 'desc') ? direction : 'asc'
+
+  const queryOptions: QueryOptions = {
+    pagination: {
+      page: page || 1,
+      perPage: 10,
+    },
+    sort: {
+      orderBy,
+      direction: validDirection,
+    },
+  }
+
+  return queryOptions
+}

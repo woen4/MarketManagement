@@ -1,7 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Event from '@ioc:Adonis/Core/Event'
 import CreditSaleService from 'App/Services/CreditSalesService'
-import { getSerializedItems } from 'App/Utils'
 
 export default class CreditSalesController {
   public service: CreditSaleService
@@ -19,7 +17,9 @@ export default class CreditSalesController {
 
   public async index({ request, response }: HttpContextContract) {
     const page = request.input('page')
-    const creditSales = await this.service.index({ page })
+    const sort = request.input('sort')
+
+    const creditSales = await this.service.index({ page, sort })
 
     return response.status(200).json(creditSales)
   }

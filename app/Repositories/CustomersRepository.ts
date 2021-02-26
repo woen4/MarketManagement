@@ -1,11 +1,26 @@
 import Customer from 'App/Models/Customer'
 
 export default class CustomersRepository {
-  public async create(customer: CreateCustomer) {}
+  public async create(data: RepoCustomer) {
+    const customer = await Customer.create(data)
+    return customer
+  }
 
-  public async index(page: number, perPage: number) {}
+  public async index({ pagination, sort }: QueryOptions) {
+    const { page, perPage } = pagination
+    const { orderBy, direction } = sort
 
-  public async show(id: number) {}
+    const customers = await Customer.query().orderBy(orderBy, direction).paginate(page, perPage)
+    return customers
+  }
 
-  public async delete(id: number) {}
+  public async show(id: number) {
+    const customer = await Customer.query().where({ id }).first()
+    return customer
+  }
+
+  public async destroy(id: number) {
+    const customer = await Customer.query().where({ id }).delete()
+    return customer
+  }
 }

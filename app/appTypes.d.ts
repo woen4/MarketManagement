@@ -7,14 +7,21 @@ declare interface CreateProduct {
   provider?: string
 }
 
+declare interface UpdateProduct {
+  code: string
+  name: string
+  stock: number
+  sellPrice: number
+  buyPrice: number
+  provider?: string
+}
+
 declare interface CreateCashSale {
   rebate: number
   items: Array<Item>
 }
 
-declare interface CreateCreditSale {
-  rebate: number
-  items: Array<Item>
+declare interface CreateCreditSale extends CreateCashSale {
   customerId: number
   openAt: DateTime
 }
@@ -26,15 +33,16 @@ interface CreateCustomer {
   lastPurchase: DateTime
 }
 
-interface ProductCreateData {
-  code: string
-  name: string
-  stock: number
-  sellPrice: number
-  buyPrice: number
-  provider?: string
+declare interface Params {
+  id: number
 }
 
-interface ProductUpdateData extends ProductCreateData {
-  recordStockChange: boolean
+declare interface IndexParams {
+  page: number
+  sort?: string
+}
+
+declare interface DefaultIndexParams {
+  orderBy: string
+  direction: string
 }

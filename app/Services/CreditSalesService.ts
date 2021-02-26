@@ -1,7 +1,7 @@
 import Event from '@ioc:Adonis/Core/Event'
 import NotFoundException from 'App/Exceptions/NotFoundException'
 import CreditSalesRepository from 'App/Repositories/CreditSalesRepository'
-import { getSerializedItems } from 'App/Utils'
+import { getSerializedItems, buildQueryOptions } from 'App/Utils'
 
 export default class CashSaleService {
   public repository: CreditSalesRepository
@@ -25,11 +25,10 @@ export default class CashSaleService {
     return result
   }
 
-  public async index({ page }: IndexParams) {
-    const perPage = 10
-    page = page || 1
+  public async index(params: IndexParams) {
+    const queryOptions: QueryOptions = buildQueryOptions(params, 'createdAt', 'desc')
 
-    const result = await this.repository.index(page, perPage)
+    const result = await this.repository.index(queryOptions)
     return result
   }
 

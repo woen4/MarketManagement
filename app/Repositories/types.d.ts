@@ -7,3 +7,27 @@ declare interface RepoCreditSale extends RepoCashSale {
   customerId: number
   openAt: DateTime
 }
+
+declare interface RepoInventoryInput {
+  productId: number
+  inputedQuantity: number
+  buyPrice: number
+  value: number
+}
+
+declare interface RepoCustomer {
+  name: string
+  payable: number
+  phoneNumber?: string
+  lastPurchase: DateTime
+}
+declare interface QueryOptions {
+  pagination: {
+    page: number
+    perPage: number
+  }
+  sort: {
+    orderBy: string
+    direction: 'asc' | 'desc'
+  }
+}

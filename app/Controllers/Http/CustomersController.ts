@@ -5,7 +5,7 @@ class CustomersController {
   private customerProperties: string[] = ['name', 'payable', 'phoneNumber', 'lastPurchase']
 
   public async create({ request, response }: HttpContextContract) {
-    const data: CustomerData = request.only(this.customerProperties)
+    const data: CreateCustomer = request.only(this.customerProperties)
     await Customer.create(data)
     return response.status(204)
   }
@@ -13,7 +13,7 @@ class CustomersController {
   public async index({ request }: HttpContextContract) {
     const page = request.input('page') || 1
     const perPage = 10
-    const [orderBy, direction] = request.input('sort')?.split('+') || ['name', null]
+    const [orderBy, direction] = request.input('sort')?.split('+') || ['name', 'asc']
 
     const customers = await Customer.query().orderBy(orderBy, direction).paginate(page, perPage)
     return customers
@@ -28,7 +28,7 @@ class CustomersController {
 
   public async update({ request, response, params }: HttpContextContract) {
     const { id } = params
-    const data: CustomerData = request.only(this.customerProperties)
+    const data: CreateCustomer = request.only(this.customerProperties)
     const customer = await Customer.find(id)
     if (!customer) return response.status(404)
     customer.merge({ ...data })

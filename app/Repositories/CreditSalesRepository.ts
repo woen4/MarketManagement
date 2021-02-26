@@ -11,10 +11,14 @@ export default class CreditSalesRepository {
     return creditsale
   }
 
-  public async index(page: number, perPage: number) {
+  public async index({ pagination, sort }: QueryOptions) {
+    const { page, perPage } = pagination
+    const { orderBy, direction } = sort
+
     const creditSales = await CreditSale.query()
       .preload('products')
       .preload('customer')
+      .orderBy(orderBy, direction)
       .paginate(page, perPage)
 
     return creditSales
