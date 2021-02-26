@@ -9,7 +9,8 @@
     "test": "node -r @adonisjs/assembler/build/register japaFile.ts",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
-    "migration:reset": "node ace migration:rollback && node ace migration:run"
+    "config:env": "docker-compose up -d && node ace migration:run",
+    "migrate": "node ace migration:run"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^3.0.0",
