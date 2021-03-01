@@ -19,8 +19,13 @@ export default class CustomersRepository {
     return customer
   }
 
+  public async update(customer: Partial<Customer>, id: number) {
+    const customerUpdated = await Customer.query().where({ id }).update(customer).first()
+    return customerUpdated
+  }
+
   public async destroy(id: number) {
-    const customer = await Customer.query().where({ id }).delete()
+    const customer = await Customer.query().where({ id }).delete().first()
     return customer
   }
 }

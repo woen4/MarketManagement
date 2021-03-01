@@ -22,7 +22,7 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.post('/customers', 'CustomersController.create')
 Route.get('/customers', 'CustomersController.index')
-Route.get('/customers/:id', 'CustomersController.findOne')
+Route.get('/customers/:id', 'CustomersController.show')
 Route.put('/customers/:id', 'CustomersController.update')
 Route.delete('/customers/:id', 'CustomersController.destroy')
 

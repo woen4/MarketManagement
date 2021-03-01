@@ -36,8 +36,8 @@ export default class CashSaleService {
 
   public async destroy({ id }: Params) {
     const result = await this.repository.destroy(id)
-    console.log(result)
     if (!result) throw new NotFoundException('cash sale')
+
     return result
   }
 }

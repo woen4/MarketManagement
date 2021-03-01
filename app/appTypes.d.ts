@@ -30,9 +30,11 @@ interface CreateCustomer {
   name: string
   payable: number
   phoneNumber: string
-  lastPurchase: DateTime
 }
 
+interface UpdateCustomer extends CreateCustomer {
+  lastPurchase: DateTime
+}
 declare interface Params {
   id: number
 }
