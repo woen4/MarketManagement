@@ -2,32 +2,36 @@ import InventoryInputsRepository from 'App/Repositories/InventoryInputsRepositor
 import { buildQueryOptions } from 'App/Utils'
 
 export default class InventoryInputsService {
-  public repository: InventoryInputsRepository
+  private repository: InventoryInputsRepository
 
   constructor() {
     this.repository = new InventoryInputsRepository()
   }
 
-  public static async create({ oldProduct, product }: CreateInventoryInput) {
-    const { inventory: oldInventory } = oldProduct.$original
-    const { buyPrice, id, inventory } = product.$original
-    const inputedQuantity = inventory - oldInventory
+  public async create({ product, newProduct }: CreateInventoryInput) {
+    const { inventory } = product
+    const { buyPrice, id, inventory: newInventory } = newProduct
+    const inputedQuantity = newInventory - inventory
+
+    //It should be registered if the input quantity be more than 0
+    if (inputedQuantity < 0) {
+      return
+    }
+
     const value = buyPrice * inputedQuantity
 
-    const result = await InventoryInputsRepository.create({
+    await this.repository.create({
       productId: id,
       inputedQuantity,
       buyPrice,
       value,
     })
-
-    return result
   }
 
   public async index(params: IndexParams) {
     const queryOptions: QueryOptions = buildQueryOptions(params, 'createdAt', 'desc')
 
-    const result = await this.repository.index(queryOptions)
+    const result = await this.repository.findAll(queryOptions)
     return result
   }
 }

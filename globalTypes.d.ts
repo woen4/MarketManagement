@@ -41,6 +41,6 @@ declare interface ProductData {
 }
 
 interface CreateInventoryInput {
-  product: { $original: ProductData }
-  oldProduct: { $original: ProductData }
+  product: ProductData
+  newProduct: ProductData
 }

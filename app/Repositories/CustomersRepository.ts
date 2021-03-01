@@ -6,7 +6,7 @@ export default class CustomersRepository {
     return customer
   }
 
-  public async index({ pagination, sort }: QueryOptions) {
+  public async findAll({ pagination, sort }: QueryOptions) {
     const { page, perPage } = pagination
     const { orderBy, direction } = sort
 
@@ -14,8 +14,8 @@ export default class CustomersRepository {
     return customers
   }
 
-  public async show(id: number) {
-    const customer = await Customer.query().where({ id }).first()
+  public async findOne(query: object) {
+    const customer = await Customer.query().where(query).first()
     return customer
   }
 

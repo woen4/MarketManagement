@@ -38,7 +38,7 @@ declare interface Params {
 }
 
 declare interface IndexParams {
-  page: number
+  page?: number
   sort?: string
 }
 

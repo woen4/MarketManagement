@@ -11,7 +11,7 @@ export default class CashSalesRepository {
     return creditSale
   }
 
-  public async index({ pagination, sort }: QueryOptions) {
+  public async findAll({ pagination, sort }: QueryOptions) {
     const { page, perPage } = pagination
     const { orderBy, direction } = sort
 
@@ -22,8 +22,8 @@ export default class CashSalesRepository {
     return creditSales
   }
 
-  public async show(id: number) {
-    const creditSale = await CashSale.query().preload('products').where({ id }).first()
+  public async findOne(query: object) {
+    const creditSale = await CashSale.query().preload('products').where(query).first()
     return creditSale
   }
 

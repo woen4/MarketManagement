@@ -11,7 +11,7 @@ export default class CreditSalesRepository {
     return creditsale
   }
 
-  public async index({ pagination, sort }: QueryOptions) {
+  public async findAll({ pagination, sort }: QueryOptions) {
     const { page, perPage } = pagination
     const { orderBy, direction } = sort
 
@@ -24,11 +24,11 @@ export default class CreditSalesRepository {
     return creditSales
   }
 
-  public async show(id: number) {
+  public async findOne(query: object) {
     const creditSale = await CreditSale.query()
       .preload('products')
       .preload('customer')
-      .where({ id })
+      .where(query)
       .first()
 
     return creditSale

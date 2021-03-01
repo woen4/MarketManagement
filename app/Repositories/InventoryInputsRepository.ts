@@ -1,12 +1,12 @@
 import InventoryInputs from 'App/Schemas/InventoryInput'
 
 export default class InventoryInputsRepository {
-  public static async create(data: RepoInventoryInput) {
+  public async create(data: RepoInventoryInput) {
     const result = await InventoryInputs.create(data)
     return result
   }
 
-  public async index({ pagination, sort }: QueryOptions) {
+  public async findAll({ pagination, sort }: QueryOptions) {
     const { page, perPage } = pagination
     const { orderBy, direction } = sort
 

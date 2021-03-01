@@ -1,9 +1,12 @@
 import Product from 'App/Models/Product'
 
 export default class ProductsRepository {
-  public async create(product: RepoProduct) {}
+  public async create(data: RepoProduct) {
+    const result = await Product.create(data)
+    return result
+  }
 
-  public async index({ pagination, sort }: QueryOptions) {
+  public async findAll({ pagination, sort }: QueryOptions) {
     const { page, perPage } = pagination
     const { orderBy, direction } = sort
 
@@ -11,8 +14,8 @@ export default class ProductsRepository {
     return products
   }
 
-  public async show(id: number) {
-    const product = await Product.query().where({ id }).first()
+  public async findOne(query: object) {
+    const product = await Product.query().where(query).first()
     return product
   }
 
@@ -21,8 +24,8 @@ export default class ProductsRepository {
     return product
   }
 
-  public async showByCode(code: string) {
-    const product = await Product.query().where({ code }).first()
-    return product
+  public async update(product: Partial<Product>, id: number) {
+    const productUpdated = await Product.query().where({ id }).update(product)
+    return productUpdated
   }
 }

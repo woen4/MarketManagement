@@ -28,12 +28,12 @@ export default class CashSaleService {
   public async index(params: IndexParams) {
     const queryOptions: QueryOptions = buildQueryOptions(params, 'createdAt', 'desc')
 
-    const result = await this.repository.index(queryOptions)
+    const result = await this.repository.findAll(queryOptions)
     return result
   }
 
   public async show({ id }: Params) {
-    const result = await this.repository.show(id)
+    const result = await this.repository.findOne({ id })
     if (!result) throw new NotFoundException('credit sale')
     return result
   }

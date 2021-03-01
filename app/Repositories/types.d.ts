@@ -21,6 +21,15 @@ declare interface RepoCustomer {
   phoneNumber?: string
   lastPurchase: DateTime
 }
+
+declare interface RepoProduct {
+  code: string
+  name: string
+  stock: number
+  sellPrice: number
+  buyPrice: number
+  provider?: string
+}
 declare interface QueryOptions {
   pagination: {
     page: number

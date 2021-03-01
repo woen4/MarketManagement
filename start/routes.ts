@@ -22,13 +22,13 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.post('/customers', 'CustomersController.create')
 Route.get('/customers', 'CustomersController.index')
-Route.get('/customers/:id', 'CustomersController.show')
+Route.get('/customers/:id', 'CustomersController.findOne')
 Route.put('/customers/:id', 'CustomersController.update')
 Route.delete('/customers/:id', 'CustomersController.destroy')
 
 Route.post('/cashsales', 'CashSalesController.create')
 Route.get('/cashsales', 'CashSalesController.index')
-Route.get('/cashsales/:id', 'CashSalesController.show')
+Route.get('/cashsales/:id', 'CashSalesController.findOne')
 //Route.put('/cashsales/:id', 'CashSalesController.update')
 Route.delete('/cashsales/:id', 'CashSalesController.destroy')
 
@@ -40,7 +40,7 @@ Route.delete('/products/:id', 'ProductsController.destroy')
 
 Route.post('/creditsales', 'CreditSalesController.create')
 Route.get('/creditsales', 'CreditSalesController.index')
-Route.get('/creditsales/:id', 'CreditSalesController.show')
+Route.get('/creditsales/:id', 'CreditSalesController.findOne')
 //Route.put('/creditsales/:id', 'CreditSalesController.update')
 Route.delete('/creditsales/:id', 'CreditSalesController.destroy')
 
