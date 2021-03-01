@@ -6,9 +6,11 @@ export default class CashSalesRepository {
     creditSale.rebate = data.rebate
     await creditSale.save()
     await creditSale.related('products').attach(data.items)
-    await creditSale.save()
+    const { id } = await creditSale.save()
 
-    return creditSale
+    const result = await this.findOne({ id })
+
+    return result
   }
 
   public async findAll({ pagination, sort }: QueryOptions) {
@@ -28,7 +30,7 @@ export default class CashSalesRepository {
   }
 
   public async destroy(id: number) {
-    const creditSale = await CashSale.query().where({ id }).delete()
+    const creditSale = await CashSale.query().where({ id }).delete().first()
     return creditSale
   }
 }

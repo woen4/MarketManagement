@@ -28,7 +28,7 @@ Route.delete('/customers/:id', 'CustomersController.destroy')
 
 Route.post('/cashsales', 'CashSalesController.create')
 Route.get('/cashsales', 'CashSalesController.index')
-Route.get('/cashsales/:id', 'CashSalesController.findOne')
+Route.get('/cashsales/:id', 'CashSalesController.show')
 //Route.put('/cashsales/:id', 'CashSalesController.update')
 Route.delete('/cashsales/:id', 'CashSalesController.destroy')
 

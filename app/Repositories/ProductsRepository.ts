@@ -19,13 +19,13 @@ export default class ProductsRepository {
     return product
   }
 
-  public async destroy(id: number) {
-    const product = await Product.query().where({ id }).delete()
-    return product
-  }
-
   public async update(product: Partial<Product>, id: number) {
     const productUpdated = await Product.query().where({ id }).update(product)
     return productUpdated
+  }
+
+  public async destroy(id: number) {
+    const product = await Product.query().where({ id }).delete().first()
+    return product
   }
 }
