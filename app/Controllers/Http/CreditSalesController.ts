@@ -10,7 +10,7 @@ export default class CreditSalesController {
 
   public async create({ request, response }: HttpContextContract) {
     const data: CreateCreditSale = request.only(['customerId', 'rebate', 'items', 'openAt'])
-    const result = this.service.create(data)
+    const result = await this.service.create(data)
 
     return response.status(201).json(result)
   }

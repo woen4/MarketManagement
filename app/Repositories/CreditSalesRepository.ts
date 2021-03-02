@@ -3,12 +3,14 @@ import { getSerializedItems } from 'App/Utils'
 
 export default class CreditSalesRepository {
   public async create(data: RepoCreditSale) {
-    const serializedItems = getSerializedItems(data.items)
-    delete data.items
-    const creditsale = await CreditSale.create(data)
-    await creditsale.related('products').attach(serializedItems)
+    const { items, ...newData } = data
+    const serializedItems = getSerializedItems(items)
+    const creditSale = await CreditSale.create(newData)
+    await creditSale.related('products').attach(serializedItems)
 
-    return creditsale
+    const result = await this.findOne({ id: creditSale.id })
+
+    return result
   }
 
   public async findAll({ pagination, sort }: QueryOptions) {
@@ -35,7 +37,7 @@ export default class CreditSalesRepository {
   }
 
   public async destroy(id: number) {
-    const creditSale = await CreditSale.query().where({ id }).delete()
+    const creditSale = await CreditSale.query().where({ id }).delete().first()
     return creditSale
   }
 }

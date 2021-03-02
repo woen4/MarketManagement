@@ -1,7 +1,7 @@
 import Event from '@ioc:Adonis/Core/Event'
 import NotFoundException from 'App/Exceptions/NotFoundException'
 import CreditSalesRepository from 'App/Repositories/CreditSalesRepository'
-import { getSerializedItems, buildQueryOptions } from 'App/Utils'
+import { buildQueryOptions } from 'App/Utils'
 
 export default class CashSaleService {
   public repository: CreditSalesRepository
@@ -11,22 +11,16 @@ export default class CashSaleService {
   }
 
   public async create(data: CreateCreditSale) {
-    const { items, ...newData } = data
-    const serializedItems = getSerializedItems(items)
-
-    const result = this.repository.create({
-      items: serializedItems,
-      ...newData,
-    })
+    const result = await this.repository.create(data)
 
     //Update inventory
-    Event.emit('new:sale', items)
+    Event.emit('new:sale', data.items)
 
     return result
   }
 
   public async index(params: IndexParams) {
-    const queryOptions: QueryOptions = buildQueryOptions(params, 'createdAt', 'desc')
+    const queryOptions: QueryOptions = buildQueryOptions(params, 'openAt', 'desc')
 
     const result = await this.repository.findAll(queryOptions)
     return result

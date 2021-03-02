@@ -6,6 +6,7 @@ export function sum(values: object[], key: string) {
 
 export function getSerializedItems(items: Array<Item>) {
   const itemsSerializeds = {}
+
   items.forEach(({ quantity, productId }) => {
     Object.assign(itemsSerializeds, { [productId]: { quantity } })
   })

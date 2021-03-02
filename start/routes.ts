@@ -40,7 +40,7 @@ Route.delete('/products/:id', 'ProductsController.destroy')
 
 Route.post('/creditsales', 'CreditSalesController.create')
 Route.get('/creditsales', 'CreditSalesController.index')
-Route.get('/creditsales/:id', 'CreditSalesController.findOne')
+Route.get('/creditsales/:id', 'CreditSalesController.show')
 //Route.put('/creditsales/:id', 'CreditSalesController.update')
 Route.delete('/creditsales/:id', 'CreditSalesController.destroy')
 

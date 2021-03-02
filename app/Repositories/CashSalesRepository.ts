@@ -1,11 +1,15 @@
 import CashSale from 'App/Models/CashSale'
+import { getSerializedItems } from 'App/Utils'
 
 export default class CashSalesRepository {
   public async create(data: RepoCashSale) {
     const creditSale = new CashSale()
+    const serializedItems = getSerializedItems(data.items)
+
     creditSale.rebate = data.rebate
     await creditSale.save()
-    await creditSale.related('products').attach(data.items)
+    await creditSale.related('products').attach(serializedItems)
+
     const { id } = await creditSale.save()
 
     const result = await this.findOne({ id })
