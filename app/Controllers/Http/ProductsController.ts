@@ -23,7 +23,7 @@ export default class ProductsController {
   public async index({ request }: HttpContextContract) {
     const page = request.input('page')
     const sort = request.input('sort')
-
+    console.log(sort)
     const products = await this.service.index({ page, sort })
     return products
   }

@@ -14,7 +14,7 @@ export default class CashSaleService {
     const productWithThisCode = await this.repository.findOne({ code: data.code })
 
     if (productWithThisCode) {
-      return //Error
+      throw new Error('A product with these code alredy exists')
     }
 
     const result = await this.repository.create(data)
@@ -25,6 +25,12 @@ export default class CashSaleService {
   public async update(data: Partial<UpdateProduct>, id: number) {
     const product = await this.repository.findOne({ id })
     if (!product) throw new NotFoundException('product')
+
+    //Verifies if the code has changed
+    if (product.code !== data.code) {
+      const productWithThisCode = await this.repository.findOne({ code: data.code })
+      if (productWithThisCode) throw new Error('This code is already being used by another product')
+    }
 
     await this.repository.update(data, id)
 
@@ -53,6 +59,7 @@ export default class CashSaleService {
     return result
   }
 
+  //On new:sale
   public async updateInventory(items: Array<Item>) {
     for (const item of items) {
       const product = await this.repository.findOne({ id: item.productId })

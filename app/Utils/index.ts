@@ -16,11 +16,10 @@ export function getSerializedItems(items: Array<Item>) {
 export function buildQueryOptions(
   params: IndexParams,
   defaultOrderBy: string,
-  defaultDirection: string
+  defaultDirection: 'asc' | 'desc'
 ) {
   const { sort, page } = params
   const [orderBy, direction] = sort?.split('+') || [defaultOrderBy, defaultDirection]
-  const validDirection = direction === ('asc' || 'desc') ? direction : 'asc'
 
   const queryOptions: QueryOptions = {
     pagination: {
@@ -29,11 +28,18 @@ export function buildQueryOptions(
     },
     sort: {
       orderBy,
-      direction: validDirection,
+      direction: validDirection(direction, defaultDirection),
     },
   }
 
   return queryOptions
+}
+
+function validDirection(direction: string, defaultDirection: SortDirection): SortDirection {
+  if (direction === 'asc' || direction === 'desc') {
+    return direction
+  }
+  return defaultDirection
 }
 
 export function Binder() {

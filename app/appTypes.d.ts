@@ -48,3 +48,5 @@ declare interface DefaultIndexParams {
   orderBy: string
   direction: string
 }
+
+declare type SortDirection = 'asc' | 'desc'
