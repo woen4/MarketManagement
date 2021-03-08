@@ -11,8 +11,8 @@ export default class ExceptionHandler extends HttpExceptionHandler {
       return ctx.response.status(404).send('One of the referenced ids does not found')
     }
 
-    return ctx.response.status(403).send(error.message)
+    //return ctx.response.status(403).send(error.message)
 
-    //return super.handle(error, ctx)
+    return super.handle(error, ctx)
   }
 }

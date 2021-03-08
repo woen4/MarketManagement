@@ -24,7 +24,7 @@
     "execa": "^5.0.0",
     "get-port": "^5.1.1",
     "japa": "^3.1.1",
-    "jsdom": "^16.4.0",
+    "jsdom": "^16.5.0",
     "pino-pretty": "^4.5.0",
     "prettier": "^2.2.1",
     "sinon": "^9.2.4",
@@ -43,6 +43,7 @@
     "pg": "^8.5.1",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
+    "remove": "^0.1.5",
     "source-map-support": "^0.5.19"
   }
 }

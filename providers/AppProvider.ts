@@ -11,8 +11,13 @@ export default class AppProvider {
   }
 
   public async boot() {
-    const mongoUrlConnection =
-      process.env.NODE_ENV === 'development' ? 'mongodb://localhost:27017/viana_server' : ''
+    const mongoUrls = {
+      development: 'mongodb://localhost:27017/viana_server',
+      testing: 'mongodb://localhost:27017/viana_server_test',
+      production: '',
+    }
+
+    const mongoUrlConnection = mongoUrls[process.env.NODE_ENV || 'development']
 
     mongoose.connect(mongoUrlConnection, {
       useNewUrlParser: true,

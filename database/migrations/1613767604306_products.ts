@@ -10,7 +10,7 @@ export default class Products extends BaseSchema {
       table.string('name').notNullable()
       table.float('inventory').notNullable()
       table.float('sell_price').notNullable()
-      table.float('buy_price').notNullable().onUpdate('RESTRICT')
+      table.float('buy_price').notNullable()
       table.string('provider')
     })
   }

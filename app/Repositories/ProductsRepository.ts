@@ -9,7 +9,7 @@ export default class ProductsRepository {
   public async findAll({ pagination, sort }: QueryOptions) {
     const { page, perPage } = pagination
     const { orderBy, direction } = sort
-    console.log(sort)
+
     const products = await Product.query().orderBy(orderBy, direction).paginate(page, perPage)
     return products
   }

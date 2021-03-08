@@ -27,17 +27,17 @@ export default class CashSaleService {
     if (!product) throw new NotFoundException('product')
 
     //Verifies if the code has changed
-    if (product.code !== data.code) {
+    if (data.code && product.code !== data.code) {
       const productWithThisCode = await this.repository.findOne({ code: data.code })
       if (productWithThisCode) throw new Error('This code is already being used by another product')
     }
 
     await this.repository.update(data, id)
 
-    await Event.emit('update:product', {
+    /* await Event.emit('update:product', {
       product: product.$original as ProductData,
       newProduct: product.merge(data).$attributes as ProductData,
-    })
+    }) */
   }
 
   public async index(params: IndexParams) {
