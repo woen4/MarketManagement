@@ -19,7 +19,7 @@ test.group('Customers tests', async (group) => {
     return response.body
   }
 
-  test('should create a cash sale', async (assert) => {
+  test('customer creating', async (assert) => {
     const response = await request(BASE_URL)
       .post('/customers')
       .send(customerMock.creationData)
@@ -33,7 +33,7 @@ test.group('Customers tests', async (group) => {
     assert.deepEqual(received, customerMock.customerValid)
   })
 
-  test('should list the existing cash sales', async (assert) => {
+  test('customer listing', async (assert) => {
     const expected = await createCustomer()
     const response = await request(BASE_URL).get(`/customers`).expect(200)
     const received = response.body.data
@@ -41,13 +41,13 @@ test.group('Customers tests', async (group) => {
     assert.includeDeepMembers(received, [expected])
   })
 
-  test('should show a specfic cash sales', async (assert) => {
+  test('customer showing', async (assert) => {
     const customer = await createCustomer()
     const { body } = await request(BASE_URL).get(`/customers/${customer.id}`).expect(200)
     assert.deepEqual(body, customer)
   })
 
-  test('cash sales deleting', async () => {
+  test('customer deleting', async () => {
     const customer = await createCustomer()
     await request(BASE_URL).delete(`/customers/${customer.id}`).expect(204)
 

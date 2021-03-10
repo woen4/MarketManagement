@@ -20,7 +20,7 @@ test.group('Cash tests', async (group) => {
     return response.body
   }
 
-  test('should create a cash sale', async (assert) => {
+  test('cash sales creating', async (assert) => {
     const response = await request(BASE_URL)
       .post('/cashsales')
       .send(cashSaleMock.creationData)
@@ -34,7 +34,7 @@ test.group('Cash tests', async (group) => {
     assert.deepEqual(received, cashSaleMock.cashSaleValid)
   })
 
-  test('should list the existing cash sales', async (assert) => {
+  test('cash sales listing', async (assert) => {
     const expected = await createCashSale()
     const response = await request(BASE_URL).get(`/cashsales`).expect(200)
     const received = response.body.data
@@ -42,13 +42,13 @@ test.group('Cash tests', async (group) => {
     assert.includeDeepMembers(received, [expected])
   })
 
-  test('should show a specfic product', async (assert) => {
+  test('cash sales showing', async (assert) => {
     const cashSale = await createCashSale()
     const { body } = await request(BASE_URL).get(`/cashsales/${cashSale.id}`).expect(200)
     assert.deepEqual(body, cashSale)
   })
 
-  test('product deleting', async () => {
+  test('cash sales deleting', async () => {
     const cashSale = await createCashSale()
     await request(BASE_URL).delete(`/cashsales/${cashSale.id}`).expect(204)
 

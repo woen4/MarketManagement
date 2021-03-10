@@ -20,7 +20,7 @@ test.group('Credit sales tests', async (group) => {
     return response.body
   }
 
-  test('should create a credit sale', async (assert) => {
+  test('credit sales creating', async (assert) => {
     const response = await request(BASE_URL)
       .post('/creditsales')
       .send(creditSaleMock.creationData)
@@ -31,7 +31,7 @@ test.group('Credit sales tests', async (group) => {
     assert.deepEqual(received, creditSaleMock.creditSaleValid)
   })
 
-  test('should list the existing credit sales', async (assert) => {
+  test('credit sales  listing', async (assert) => {
     const expected = await createCreditSale()
 
     const response = await request(BASE_URL).get(`/creditsales`).expect(200)
@@ -40,13 +40,13 @@ test.group('Credit sales tests', async (group) => {
     assert.includeDeepMembers(received, [expected])
   })
 
-  test('should show a specfic product', async (assert) => {
+  test('credit sales showing', async (assert) => {
     const creditSale = await createCreditSale()
     const { body } = await request(BASE_URL).get(`/creditsales/${creditSale.id}`).expect(200)
     assert.deepEqual(body, creditSale)
   })
 
-  test('product deleting', async () => {
+  test('credit sales deleting', async () => {
     const creditSale = await createCreditSale()
     await request(BASE_URL).delete(`/creditsales/${creditSale.id}`).expect(204)
 

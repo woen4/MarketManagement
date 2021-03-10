@@ -18,7 +18,7 @@ test.group('Product tests', (group) => {
     const response = await request(BASE_URL).post('/products').send(productMock.creationData)
     return { provider: null, ...response.body }
   }
-  test('should create a product', async (assert) => {
+  test('product credit sales', async (assert) => {
     const productMock = ProductMock()
     const response = await request(BASE_URL)
       .post('/products')
@@ -31,7 +31,7 @@ test.group('Product tests', (group) => {
     assert.deepEqual(received, expected)
   })
 
-  test('should list the existing products', async (assert) => {
+  test('product listing', async (assert) => {
     const product = await createProduct()
     const expected = [{ ...product, id: product.id }]
     const response = await request(BASE_URL).get(`/products`).expect(200)
