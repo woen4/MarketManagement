@@ -36,7 +36,6 @@ test.group('Cash tests', async (group) => {
 
   test('should list the existing cash sales', async (assert) => {
     const expected = await createCashSale()
-    console.log({ expected })
     const response = await request(BASE_URL).get(`/cashsales`).expect(200)
     const received = response.body.data
 

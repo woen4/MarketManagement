@@ -4,8 +4,8 @@ import CreditSalesModel from 'App/Models/CreditSale'
 import CustomerModel from 'App/Models/Customer'
 
 export async function clearDatabase() {
-  await ProductModel.query().delete()
-  await CashSalesModel.query().delete()
   await CreditSalesModel.query().delete()
+  await CashSalesModel.query().delete()
+  await ProductModel.query().delete()
   await CustomerModel.query().delete()
 }

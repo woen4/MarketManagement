@@ -68,7 +68,7 @@ export default class CashSaleService {
         inventory: (product.$attributes.inventory -= item.quantity),
       }
       product.$attributes.inventory -= item.quantity
-      this.repository.update(newProduct, item.productId)
+      await this.repository.update(newProduct, item.productId)
     }
   }
 }

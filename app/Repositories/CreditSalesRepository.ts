@@ -8,9 +8,7 @@ export default class CreditSalesRepository {
     const creditSale = await CreditSale.create(newData)
     await creditSale.related('products').attach(serializedItems)
 
-    const result = await this.findOne({ id: creditSale.id })
-
-    return result
+    return creditSale
   }
 
   public async findAll({ pagination, sort }: QueryOptions) {

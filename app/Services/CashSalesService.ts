@@ -14,7 +14,7 @@ export default class CashSaleService {
     const result = this.repository.create(data)
 
     //Update inventory
-    Event.emit('new:sale', data.items)
+    await Event.emit('new:sale', data.items)
 
     return result
   }

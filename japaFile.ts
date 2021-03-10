@@ -1,6 +1,5 @@
 import 'reflect-metadata'
 import { join } from 'path'
-import execa from 'execa'
 import getPort from 'get-port'
 import { configure } from 'japa'
 import sourceMapSupport from 'source-map-support'

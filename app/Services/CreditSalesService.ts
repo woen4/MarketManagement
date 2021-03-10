@@ -11,12 +11,13 @@ export default class CashSaleService {
   }
 
   public async create(data: CreateCreditSale) {
-    const result = await this.repository.create(data)
+    const { id } = await this.repository.create(data)
 
     //Update inventory
-    Event.emit('new:sale', data.items)
+    await Event.emit('new:sale', data.items)
 
-    return result
+    const creditSales = await this.show({ id })
+    return creditSales
   }
 
   public async index(params: IndexParams) {
