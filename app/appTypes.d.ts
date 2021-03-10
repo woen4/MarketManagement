@@ -1,7 +1,7 @@
 declare interface CreateProduct {
   code: string
   name: string
-  stock: number
+  inventory: number
   sellPrice: number
   buyPrice: number
   provider?: string
@@ -10,7 +10,7 @@ declare interface CreateProduct {
 declare interface UpdateProduct {
   code: string
   name: string
-  stock: number
+  inventory: number
   sellPrice: number
   buyPrice: number
   provider?: string

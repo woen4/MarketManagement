@@ -25,7 +25,7 @@ declare interface RepoCustomer {
 declare interface RepoProduct {
   code: string
   name: string
-  stock: number
+  inventory: number
   sellPrice: number
   buyPrice: number
   provider?: string

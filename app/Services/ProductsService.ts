@@ -1,4 +1,4 @@
-import Event from '@ioc:Adonis/Core/Event'
+//import Event from '@ioc:Adonis/Core/Event'
 import NotFoundException from 'App/Exceptions/NotFoundException'
 import ProductsRepository from 'App/Repositories/ProductsRepository'
 import { buildQueryOptions } from 'App/Utils'
