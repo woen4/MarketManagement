@@ -11,7 +11,6 @@ declare interface RepoCreditSale extends RepoCashSale {
 declare interface RepoInventoryInput {
   productId: number
   inputedQuantity: number
-  buyPrice: number
   value: number
 }
 

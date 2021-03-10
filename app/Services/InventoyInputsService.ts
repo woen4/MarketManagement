@@ -13,7 +13,7 @@ export default class InventoryInputsService {
     const { buyPrice, id, inventory: newInventory } = newProduct
     const inputedQuantity = newInventory - inventory
 
-    //It should be registered if the input quantity be more than 0
+    //It should be registered if the inputed quantity be more than 0
     if (inputedQuantity < 0) {
       return
     }
@@ -23,7 +23,6 @@ export default class InventoryInputsService {
     await this.repository.create({
       productId: id,
       inputedQuantity,
-      buyPrice,
       value,
     })
   }

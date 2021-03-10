@@ -1,4 +1,4 @@
-//import Event from '@ioc:Adonis/Core/Event'
+import Event from '@ioc:Adonis/Core/Event'
 import NotFoundException from 'App/Exceptions/NotFoundException'
 import ProductsRepository from 'App/Repositories/ProductsRepository'
 import { buildQueryOptions } from 'App/Utils'
@@ -34,10 +34,10 @@ export default class CashSaleService {
 
     await this.repository.update(data, id)
 
-    /* await Event.emit('update:product', {
+    await Event.emit('update:product', {
       product: product.$original as ProductData,
       newProduct: product.merge(data).$attributes as ProductData,
-    }) */
+    })
   }
 
   public async index(params: IndexParams) {
