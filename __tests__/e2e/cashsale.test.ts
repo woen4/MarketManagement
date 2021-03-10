@@ -1,72 +1,58 @@
 import test from 'japa'
 import request from 'supertest'
-import ProductModel from 'App/Models/Product'
-import CashSalesModel from 'App/Models/CashSale'
-import ProductMock from '../mocks/product'
+import CashSaleMock from '../mocks/cashsale'
+import { clearDatabase } from '../utils'
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
-test.group('Product service', (group) => {
-  let product = {}
-  group.before(async () => {
-    await ProductModel.query().delete()
-    await CashSalesModel.query().delete()
-    await createProduct()
+test.group('Cash sales', async (group) => {
+  let cashSaleMock
+  group.beforeEach(async () => {
+    await clearDatabase()
+    cashSaleMock = await CashSaleMock()
   })
 
-  group.after(async () => {
-    await ProductModel.query().delete()
-    await CashSalesModel.query().delete()
+  group.afterEach(async () => {
+    await clearDatabase()
   })
 
-  async function createProduct() {
-    const productMock = ProductMock()
-    const response = await request(BASE_URL).post('/products').send(productMock.creationData)
-    product = { provider: null, ...response.body }
+  async function createCashSale() {
+    const response = await request(BASE_URL).post('/cashsales').send(cashSaleMock.creationData)
+    return response.body
   }
-  test('should create a product', async (assert) => {
+
+  test('should create a cash sale', async (assert) => {
     const response = await request(BASE_URL)
-      .post('/products')
-      .send(productMock.creationData)
+      .post('/cashsales')
+      .send(cashSaleMock.creationData)
       .expect(201)
-    const { id, ...received } = response.body
-    const { provider, ...expected } = productMock.productValid
+    const { id, createdAt, updatedAt, ...received } = response.body
 
     assert.isNumber(id)
-    assert.deepEqual(received, expected)
+    assert.isString(createdAt)
+    assert.isString(updatedAt)
+
+    assert.deepEqual(received, cashSaleMock.cashSaleValid)
   })
 
-  test('should list the existing products', async (assert) => {
-    const product = await createProduct()
-    const expected = [{ ...product, id: product.id }]
-    const response = await request(BASE_URL).get(`/products`).expect(200)
+  test('should list the existing cash sales', async (assert) => {
+    const expected = await createCashSale()
+    console.log({ expected })
+    const response = await request(BASE_URL).get(`/cashsales`).expect(200)
     const received = response.body.data
 
-    assert.includeDeepMembers(received, expected)
+    assert.includeDeepMembers(received, [expected])
   })
 
-  test('product showing', async (assert) => {
-    const product = await createProduct()
-    const { body } = await request(BASE_URL).get(`/products/${product.id}`).expect(200)
-    assert.deepEqual(body, product)
-  })
-
-  test('product updating', async (assert) => {
-    const product = await createProduct()
-    await request(BASE_URL)
-      .put(`/products/${product.id}`)
-      .send({
-        name: 'Updated Product',
-      })
-      .expect(204)
-
-    const { body } = await request(BASE_URL).get(`/products/${product.id}`).expect(200)
-    assert.deepEqual(body, { ...product, name: 'Updated Product' })
+  test('should show a specfic product', async (assert) => {
+    const cashSale = await createCashSale()
+    const { body } = await request(BASE_URL).get(`/cashsales/${cashSale.id}`).expect(200)
+    assert.deepEqual(body, cashSale)
   })
 
   test('product deleting', async () => {
-    const product = await createProduct()
-    await request(BASE_URL).delete(`/products/${product.id}`).expect(204)
+    const cashSale = await createCashSale()
+    await request(BASE_URL).delete(`/cashsales/${cashSale.id}`).expect(204)
 
-    await request(BASE_URL).get(`/products/${product.id}`).expect(404)
+    await request(BASE_URL).get(`/cashsales/${cashSale.id}`).expect(404)
   })
 })

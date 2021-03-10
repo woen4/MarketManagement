@@ -1,16 +1,16 @@
 import test from 'japa'
 import request from 'supertest'
-import ProductModel from 'App/Models/Product'
 import ProductMock from '../mocks/product'
+import { clearDatabase } from '../utils'
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
 test.group('Product service', (group) => {
   group.before(async () => {
-    await ProductModel.query().delete()
+    await clearDatabase()
   })
 
   group.after(async () => {
-    await ProductModel.query().delete()
+    await clearDatabase()
   })
 
   async function createProduct() {
