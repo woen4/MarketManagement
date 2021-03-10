@@ -52,6 +52,6 @@ export default class CashSaleService {
       payable: (customer.$attributes.payable -= saleValue),
     }
 
-    this.repository.update(newCustomer, customerId)
+    await this.repository.update(newCustomer, customerId)
   }
 }

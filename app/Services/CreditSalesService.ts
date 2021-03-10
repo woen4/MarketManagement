@@ -17,6 +17,9 @@ export default class CashSaleService {
     await Event.emit('new:sale', data.items)
 
     const creditSales = await this.show({ id })
+
+    await Event.emit('new:creditsale', creditSales.serialize() as CreditSaleData)
+
     return creditSales
   }
 

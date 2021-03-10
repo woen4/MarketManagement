@@ -53,4 +53,34 @@ test.group('Customers tests', async (group) => {
 
     await request(BASE_URL).get(`/customers/${customer.id}`).expect(404)
   })
+
+  test('customer update payable on new credit sale', async (assert) => {
+    const customer = await createCustomer()
+    const productData = {
+      code: '1',
+      name: 'Product',
+      inventory: 1,
+      sellPrice: 10,
+      buyPrice: 5,
+    }
+    const { body: product } = await request(BASE_URL).post('/products').send(productData)
+    const creditSaleData = {
+      customerId: customer.id,
+      rebate: 0,
+      openAt: '2021-02-19T15:43:38.803-03:00',
+      items: [
+        {
+          quantity: 1,
+          productId: product.id,
+        },
+      ],
+    }
+    const saleValue = creditSaleData.items[0].quantity * product.sellPrice
+    await request(BASE_URL).post('/creditsales').send(creditSaleData)
+
+    const { body: customerUpdated } = await request(BASE_URL)
+      .get(`/customers/${customer.id}`)
+      .expect(200)
+    assert.deepEqual(customerUpdated.payable, customer.payable - saleValue)
+  })
 })

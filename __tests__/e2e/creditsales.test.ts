@@ -36,6 +36,8 @@ test.group('Credit sales tests', async (group) => {
 
     const response = await request(BASE_URL).get(`/creditsales`).expect(200)
     const received = response.body.data
+    delete received[0].customer
+    delete expected.customer
 
     assert.includeDeepMembers(received, [expected])
   })
@@ -43,6 +45,8 @@ test.group('Credit sales tests', async (group) => {
   test('credit sales showing', async (assert) => {
     const creditSale = await createCreditSale()
     const { body } = await request(BASE_URL).get(`/creditsales/${creditSale.id}`).expect(200)
+    delete body.customer
+    delete creditSale.customer
     assert.deepEqual(body, creditSale)
   })
 
