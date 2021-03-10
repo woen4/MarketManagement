@@ -1,6 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, beforeSave } from '@ioc:Adonis/Lucid/Orm'
 export default class Customer extends BaseModel {
+  @beforeSave()
+  public static async setLastPurchase(customer: Customer) {
+    customer.lastPurchase = DateTime.now()
+  }
+
   @column({ isPrimary: true })
   public id: number
 

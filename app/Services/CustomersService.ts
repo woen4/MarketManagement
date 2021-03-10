@@ -9,11 +9,7 @@ export default class CashSaleService {
   }
 
   public async create(data: CreateCustomer) {
-    const fullData = {
-      ...data,
-      lastPurchase: new Date().toISOString(),
-    }
-    const result = this.repository.create(fullData)
+    const result = this.repository.create(data)
 
     return result
   }

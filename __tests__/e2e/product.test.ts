@@ -4,7 +4,7 @@ import ProductMock from '../mocks/product'
 import { clearDatabase } from '../utils'
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
-test.group('Product service', (group) => {
+test.group('Product tests', (group) => {
   group.before(async () => {
     await clearDatabase()
   })

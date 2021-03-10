@@ -4,7 +4,7 @@ import CashSaleMock from '../mocks/cashsale'
 import { clearDatabase } from '../utils'
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
-test.group('Cash sales', async (group) => {
+test.group('Cash tests', async (group) => {
   let cashSaleMock
   group.beforeEach(async () => {
     await clearDatabase()
