@@ -1,5 +1,4 @@
 import InventoryInputsRepository from 'App/Repositories/InventoryInputsRepository'
-import { buildQueryOptions } from 'App/Utils'
 
 export default class InventoryInputsService {
   private repository: InventoryInputsRepository
@@ -27,10 +26,8 @@ export default class InventoryInputsService {
     })
   }
 
-  public async index(params: IndexParams) {
-    const queryOptions: QueryOptions = buildQueryOptions(params, 'createdAt', 'desc')
-
-    const result = await this.repository.findAll(queryOptions)
+  public async index(pagination: PaginationParam, sort: SortParam) {
+    const result = await this.repository.findAll(pagination, sort)
     return result
   }
 }

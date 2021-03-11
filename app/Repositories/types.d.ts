@@ -35,6 +35,6 @@ declare interface QueryOptions {
   }
   sort: {
     orderBy: string
-    direction: 'asc' | 'desc'
+    direction: 'asc' | 'desc' | undefined
   }
 }

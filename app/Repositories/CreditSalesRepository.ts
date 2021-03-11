@@ -11,7 +11,7 @@ export default class CreditSalesRepository {
     return creditSale
   }
 
-  public async findAll({ pagination, sort }: QueryOptions) {
+  public async findAll(pagination: PaginationParam, sort: SortParam) {
     const { page, perPage } = pagination
     const { orderBy, direction } = sort
 

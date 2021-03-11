@@ -17,7 +17,7 @@ export default class CashSalesRepository {
     return result
   }
 
-  public async findAll({ pagination, sort }: QueryOptions) {
+  public async findAll(pagination: PaginationParam, sort: SortParam) {
     const { page, perPage } = pagination
     const { orderBy, direction } = sort
 

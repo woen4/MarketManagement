@@ -1,30 +1,28 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ProductService from 'App/Services/ProductsService'
+import { buidSortOptions } from 'App/Utils'
 export default class ProductsController {
   private service: ProductService
+  private fields = ['code', 'name', 'inventory', 'sellPrice', 'buyPrice', 'provider']
 
   constructor() {
     this.service = new ProductService()
   }
   public async create({ request, response }: HttpContextContract) {
-    const data: CreateProduct = request.only([
-      'code',
-      'name',
-      'inventory',
-      'sellPrice',
-      'buyPrice',
-      'provider',
-    ])
+    const data: CreateProduct = request.only(this.fields)
     const product = await this.service.create(data)
 
     return response.status(201).json(product)
   }
 
   public async index({ request }: HttpContextContract) {
-    const page = request.input('page')
-    const sort = request.input('sort')
+    const page = request.input('page') || 1
+    const sort = request.input('sort') || 'name+asc'
 
-    const products = await this.service.index({ page, sort })
+    const pagination = { page, perPage: 10 }
+    const sorting = buidSortOptions(sort, this.fields)
+
+    const products = await this.service.index(pagination, sorting)
     return products
   }
 
@@ -36,14 +34,7 @@ export default class ProductsController {
 
   public async update({ params, request, response }: HttpContextContract) {
     const { id } = params
-    const data: UpdateProduct = request.only([
-      'code',
-      'name',
-      'sellPrice',
-      'buyPrice',
-      'provider',
-      'inventory',
-    ])
+    const data: UpdateProduct = request.only(this.fields)
 
     await this.service.update(data, id)
 

@@ -49,4 +49,12 @@ declare interface DefaultIndexParams {
   direction: string
 }
 
-declare type SortDirection = 'asc' | 'desc'
+declare interface PaginationParam {
+  page: number
+  perPage: number
+}
+
+declare interface SortParam {
+  orderBy: string
+  direction: 'asc' | 'desc'
+}

@@ -13,33 +13,16 @@ export function getSerializedItems(items: Array<Item>) {
   return itemsSerializeds
 }
 
-export function buildQueryOptions(
-  params: IndexParams,
-  defaultOrderBy: string,
-  defaultDirection: 'asc' | 'desc'
-) {
-  const { sort, page } = params
-  const [orderBy, direction] = sort?.split('+') || [defaultOrderBy, defaultDirection]
+export function buidSortOptions(sort: string, validFields: string[]) {
+  const [orderBy, direction] = sort.split('+')
+  const validField = validFields.includes(orderBy) ? orderBy : validFields[0]
 
-  const queryOptions: QueryOptions = {
-    pagination: {
-      page: page || 1,
-      perPage: 10,
-    },
-    sort: {
-      orderBy,
-      direction: validDirection(direction, defaultDirection),
-    },
+  const sortOptions = {
+    orderBy: validField,
+    direction: (direction === 'desc' ? 'desc' : 'asc') as 'asc' | 'desc',
   }
 
-  return queryOptions
-}
-
-function validDirection(direction: string, defaultDirection: SortDirection): SortDirection {
-  if (direction === 'asc' || direction === 'desc') {
-    return direction
-  }
-  return defaultDirection
+  return sortOptions
 }
 
 export function Binder() {

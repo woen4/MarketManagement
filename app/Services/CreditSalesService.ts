@@ -1,7 +1,6 @@
 import Event from '@ioc:Adonis/Core/Event'
 import NotFoundException from 'App/Exceptions/NotFoundException'
 import CreditSalesRepository from 'App/Repositories/CreditSalesRepository'
-import { buildQueryOptions } from 'App/Utils'
 
 export default class CashSaleService {
   public repository: CreditSalesRepository
@@ -23,10 +22,8 @@ export default class CashSaleService {
     return creditSales
   }
 
-  public async index(params: IndexParams) {
-    const queryOptions: QueryOptions = buildQueryOptions(params, 'openAt', 'desc')
-
-    const result = await this.repository.findAll(queryOptions)
+  public async index(pagination: PaginationParam, sort: SortParam) {
+    const result = await this.repository.findAll(pagination, sort)
     return result
   }
 
